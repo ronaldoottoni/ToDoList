@@ -82,26 +82,6 @@ namespace ToDoList.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nome,Data,IsDone")] ToDo toDo)
-        {
-            if (ModelState.IsValid)
-            {
-                string currentUserId = User.Identity.GetUserId();
-                ApplicationUser currentUser = db.Users.FirstOrDefault
-                    (x => x.Id == currentUserId);
-
-                toDo.User = currentUser;
-
-                db.ToDos.Add(toDo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(toDo);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult AJAXCreate([Bind(Include = "Id,Nome,Data")] ToDo toDo)
         {
             if (ModelState.IsValid)
@@ -152,18 +132,6 @@ namespace ToDoList.Controllers
         // POST: ToDoes/Edit/5
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nome,Data,IsDone")] ToDo toDo)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(toDo).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(toDo);
-        }
 
         [HttpPost]
         public ActionResult AJAXEdit(int? id, bool value)
@@ -191,6 +159,17 @@ namespace ToDoList.Controllers
         // GET: ToDoes/Delete/5
         public ActionResult Delete(int? id)
         {
+                ToDo toDo = db.ToDos.Find(id);
+                db.ToDos.Remove(toDo);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+        }
+
+        // POST: ToDoes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AJAXDelete(int? id)
+        {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -200,18 +179,13 @@ namespace ToDoList.Controllers
             {
                 return HttpNotFound();
             }
-            return View(toDo);
-        }
-
-        // POST: ToDoes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            ToDo toDo = db.ToDos.Find(id);
-            db.ToDos.Remove(toDo);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            else
+            {
+                db.ToDos.Remove(toDo);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            
         }
 
         protected override void Dispose(bool disposing)

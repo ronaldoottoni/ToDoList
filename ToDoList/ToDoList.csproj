@@ -193,6 +193,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Custom_Scripts\AddCheckBoxListener.js" />
     <Content Include="Custom_Scripts\BuildTable.js" />
+    <Content Include="Custom_Scripts\DeleteToDo.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -247,7 +248,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\ToDoes\Create.cshtml" />
-    <Content Include="Views\ToDoes\Delete.cshtml" />
+    <Content Include="Views\ToDoes\_Delete.cshtml" />
     <Content Include="Views\ToDoes\Details.cshtml" />
     <Content Include="Views\ToDoes\Edit.cshtml" />
     <Content Include="Views\ToDoes\Index.cshtml" />
